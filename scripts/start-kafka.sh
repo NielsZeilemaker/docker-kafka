@@ -125,4 +125,4 @@ if [ ! -z "$HOSTNAME" ]; then
 fi
 
 export EXTRA_ARGS="-name kafkaServer" # no -loggc to minimize logging
-$KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
+exec $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties

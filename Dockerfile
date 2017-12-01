@@ -46,12 +46,7 @@ RUN mkdir -p /tmp/zookeeper && \
     chmod -R 777  /tmp/kafka-logs && \
     chmod -R 777 /var/private/ssl
 
-# Supervisor config
-ADD supervisor/initialize.ini supervisor/kafka.ini supervisor/zookeeper.ini /etc/supervisord.d/
-
-
-
 # 2181 is zookeeper, 9092-9099 is kafka (for different listeners like SSL, INTERNAL, PLAINTEXT etc.)
 EXPOSE 2181 9092 9093 9094 9095 9096 9097 9098 9099
 
-CMD ["supervisord", "-n"]
+CMD ["/usr/bin/start-all.sh"]

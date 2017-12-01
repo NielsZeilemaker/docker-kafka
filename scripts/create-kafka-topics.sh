@@ -1,5 +1,20 @@
 #!/bin/sh
 
+# Start Topic creation
+echo "Starting topic creation..."
+# Wait for kafka broker to be available
+while [ $(echo dump | nc ${HOSTNAME} 2181 | grep brokers) == "" ]
+do
+  echo "Waiting for Kafka Broker to be available in zookeeper"
+  sleep 10
+done
+
+until echo exit | nc --send-only ${HOSTNAME} 9092;
+do 
+  echo "Waiting for Kafka Broker to be really available"
+  sleep 10
+done
+
 # Run KafkaTopics to create the topics if they don't exist yet
 if [[ -n $KAFKA_CREATE_TOPICS ]]; then
   for TOPIC in ${KAFKA_CREATE_TOPICS//,/ }; do
@@ -12,5 +27,3 @@ if [[ -n $KAFKA_CREATE_TOPICS ]]; then
     fi
   done
 fi
-
-exit 0
